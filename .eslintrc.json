@@ -1,7 +1,18 @@
 {
-	"extends": ["eslint:recommended", "plugin:prettier/recommended"],
+	"extends": [
+		"eslint:recommended",
+		"plugin:prettier/recommended",
+		"plugin:vue/vue3-recommended",
+		"@vue/prettier"
+	],
 	"plugins": ["prettier"],
 	"rules": {
-		"prettier/prettier": "error"
+		"prettier/prettier": ["error", { "endOfLine": "auto" }],
+		"vue/script-setup-uses-vars": "error", // Важно для `<script setup>`
+		"vue/no-deprecated-slot-attribute": "error" // Заменяет v-slot: на #
+	},
+	"parserOptions": {
+		"ecmaVersion": "latest",
+		"sourceType": "module"
 	}
 }
