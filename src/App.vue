@@ -6,12 +6,16 @@
 		name: 'Влажность',
 		value: '90%',
 	};
+
+	function getCity(city) {
+		console.log(city);
+	}
 </script>
 
 <template>
 	<main class="main">
 		<Stat v-bind="data" />
-		<CitySelect />
+		<CitySelect @select-city="getCity" />
 	</main>
 </template>
 

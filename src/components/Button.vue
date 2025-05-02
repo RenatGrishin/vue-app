@@ -6,6 +6,9 @@
 
 <style scoped lang="scss">
 	.button {
+		display: flex;
+		gap: 9px;
+		align-items: center;
 		border: none;
 		border-radius: 10px;
 		background: var(--gradient);

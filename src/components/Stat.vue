@@ -21,6 +21,7 @@
 	}
 	.name {
 		font-weight: 700;
+		text-transform: uppercase;
 	}
 	.stat {
 		font-weight: 500;
