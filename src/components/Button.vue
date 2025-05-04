@@ -7,7 +7,10 @@
 <style scoped lang="scss">
 	.button {
 		display: flex;
+		justify-content: center;
 		gap: 9px;
+		width: 100%;
+		height: 53px;
 		align-items: center;
 		border: none;
 		border-radius: 10px;
