@@ -1,24 +1,32 @@
 <script setup>
 	import Stat from './components/Stat.vue';
 	import CitySelect from './components/CitySelect.vue';
-	import { ref } from 'vue';
+	import { computed, nextTick, ref } from 'vue';
 
 	let savedCity = ref('Moscow');
+	let humidity = ref(90);
 	let data = ref({
 		labelName: 'Влажность',
 		labelVal: '90%',
 	});
 
+	const dataModified = computed(() => {
+		return {
+			labelName: 'Влажность',
+			labelVal: `${humidity.value}%`,
+		};
+	});
+
 	function getCity(city) {
-		console.log(city);
+		humidity.value = 30;
 		savedCity.value = city;
-		data.value.labelVal = '30%';
 	}
 </script>
 
 <template>
 	<main class="main">
-		<Stat v-bind="data" />
+		<div id="city">{{ savedCity }}</div>
+		<Stat v-bind="dataModified" />
 		<CitySelect @select-city="getCity" />
 	</main>
 </template>
