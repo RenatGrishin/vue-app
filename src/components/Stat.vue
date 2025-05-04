@@ -1,14 +1,14 @@
 <script setup>
-	const { name = 'Не задан', value } = defineProps({
-		name: String,
-		value: String,
+	const { labelName = 'Не задан', labelVal } = defineProps({
+		labelName: String,
+		labelVal: String,
 	});
 </script>
 
 <template>
 	<div class="stat">
-		<div class="name">{{ name }}</div>
-		<div class="value">{{ value }}</div>
+		<div class="name">{{ labelName }}</div>
+		<div class="value">{{ labelVal }}</div>
 	</div>
 </template>
 

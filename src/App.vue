@@ -1,14 +1,18 @@
 <script setup>
 	import Stat from './components/Stat.vue';
 	import CitySelect from './components/CitySelect.vue';
+	import { ref } from 'vue';
 
-	const data = {
-		name: 'Влажность',
-		value: '90%',
-	};
+	let savedCity = ref('Moscow');
+	let data = ref({
+		labelName: 'Влажность',
+		labelVal: '90%',
+	});
 
 	function getCity(city) {
 		console.log(city);
+		savedCity.value = city;
+		data.value.labelVal = '30%';
 	}
 </script>
 
