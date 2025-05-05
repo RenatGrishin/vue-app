@@ -2,9 +2,14 @@
 	import Button from './Button.vue';
 	import Input from './Input.vue';
 	import IconLocation from '../icons/IconLocation.vue';
-	import { ref } from 'vue';
+	import { onMounted, ref } from 'vue';
 
 	let isEdited = ref(true);
+	let city = ref('Moscow');
+
+	onMounted(() => {
+		emit('selectCity', city.value);
+	});
 
 	const emit = defineEmits({
 		selectCity: (val) => {
@@ -19,16 +24,18 @@
 
 	function select() {
 		isEdited.value = false;
-		emit('selectCity', 'Kazan');
+		emit('selectCity', city.value);
 	}
 	function edit() {
 		isEdited.value = true;
 	}
 </script>
+
 <template>
 	<div class="city-select">
+		<i>{{ city }}</i>
 		<div v-if="isEdited" class="city-input">
-			<Input placeholder="Введите город" />
+			<Input v-model="city" placeholder="Введите город" />
 			<Button @click="select()">Сохранить</Button>
 		</div>
 		<Button v-else @click="edit()"><IconLocation /> Изменить город</Button>
