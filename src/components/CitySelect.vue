@@ -33,9 +33,13 @@
 
 <template>
 	<div class="city-select">
-		<i>{{ city }}</i>
 		<div v-if="isEdited" class="city-input">
-			<Input v-model="city" placeholder="Введите город" />
+			<Input
+				v-model="city"
+				v-focus
+				placeholder="Введите город"
+				@keyup.enter="select()"
+			/>
 			<Button @click="select()">Сохранить</Button>
 		</div>
 		<Button v-else @click="edit()"><IconLocation /> Изменить город</Button>
