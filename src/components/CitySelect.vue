@@ -2,29 +2,16 @@
 	import Button from './Button.vue';
 	import Input from './Input.vue';
 	import IconLocation from '../icons/IconLocation.vue';
-	import { onMounted, ref } from 'vue';
+	import { inject, ref } from 'vue';
+	import { cityProvide } from '../constants';
 
 	let isEdited = ref(true);
-	let city = ref('Moscow');
-
-	onMounted(() => {
-		emit('selectCity', city.value);
-	});
-
-	const emit = defineEmits({
-		selectCity: (val) => {
-			if (!val) {
-				console.log('selectCity не может быть пустым!');
-				return false;
-			}
-			console.log(`validation emit ${val}`);
-			return true;
-		},
-	});
+	const city = inject(cityProvide);
+	const inputValue = ref(city.value);
 
 	function select() {
 		isEdited.value = false;
-		emit('selectCity', city.value);
+		city.value = inputValue.value;
 	}
 	function edit() {
 		isEdited.value = true;
@@ -35,7 +22,7 @@
 	<div class="city-select">
 		<div v-if="isEdited" class="city-input">
 			<Input
-				v-model="city"
+				v-model="inputValue"
 				v-focus
 				placeholder="Введите город"
 				@keyup.enter="select()"

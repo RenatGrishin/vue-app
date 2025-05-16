@@ -1,37 +1,23 @@
 <script setup>
-	import Stat from './components/Stat.vue';
-	import CitySelect from './components/CitySelect.vue';
-	import { computed, ref } from 'vue';
-	import Error from './components/Error.vue';
-	import DayCard from './components/DayCard.vue';
+	import { onMounted, provide, ref, watch } from 'vue';
+	import PanleRight from './components/PanelRight.vue';
+	import { cityProvide } from './constants';
 
 	const API_ENDPOINT = 'http://api.weatherapi.com/v1';
 
 	let data = ref(null);
 	let error = ref();
 	let activeIndex = ref(0);
+	let city = ref('Moscow');
 
-	const errorMap = new Map([[1006, 'Указанный город не найден']]);
+	provide(cityProvide, city);
 
-	const dataModified = computed(() => {
-		return [
-			{
-				labelName: 'Влажность',
-				labelVal: `${data.value.current.humidity}%`,
-			},
-			{
-				labelName: 'Облочность',
-				labelVal: `${data.value.current.cloud}%`,
-			},
-			{
-				labelName: 'Ветер',
-				labelVal: `${data.value.current.wind_kph} км/с`,
-			},
-		];
+	watch(city, () => {
+		getCity(city.value);
 	});
 
-	const errorDisplay = computed(() => {
-		return errorMap.get(error.value?.error?.code);
+	onMounted(() => {
+		getCity(city.value);
 	});
 
 	async function getCity(city) {
@@ -48,7 +34,6 @@
 		if (res.status !== 200) {
 			error.value = await res.json();
 			data.value = null;
-			console.error(error.value.error.message);
 			return;
 		}
 
@@ -61,26 +46,12 @@
 	<main class="main">
 		<div class="left"></div>
 		<div class="right">
-			<Error v-if="error" :error="errorDisplay" />
-			<div v-else-if="data" class="info">
-				<Stat v-for="(item, index) in dataModified" :key="index" v-bind="item" />
-			</div>
-			<div v-if="data && data.forecast" class="dayCards-list">
-				<DayCard
-					v-for="(item, index) in data.forecast.forecastday"
-					:key="item.date"
-					:icon-code="item.day.condition.code"
-					:temperature="item.day.avgtemp_c"
-					:date="new Date()"
-					:is-active="activeIndex === index"
-					@click="
-						() => {
-							activeIndex.value = index;
-						}
-					"
-				/>
-			</div>
-			<CitySelect class="citySelect" @select-city="getCity" />
+			<PanleRight
+				:error
+				:data
+				:active-index="activeIndex"
+				@select-index="(index) => (activeIndex = index)"
+			/>
 		</div>
 	</main>
 </template>
@@ -91,6 +62,7 @@
 		align-items: center;
 		justify-content: center;
 	}
+
 	.left {
 		width: 500px;
 		height: 660px;
@@ -99,24 +71,10 @@
 		background-repeat: no-repeat;
 		background-size: cover;
 	}
+
 	.right {
 		background: var(--color-bg-main);
 		padding: 50px 60px;
 		border-radius: 0 25px 25px 0;
-	}
-
-	.info {
-		display: grid;
-		gap: 16px;
-	}
-
-	.dayCards-list {
-		margin-top: 80px;
-		display: flex;
-		justify-content: space-between;
-	}
-
-	.citySelect {
-		margin-top: 70px;
 	}
 </style>
