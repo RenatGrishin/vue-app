@@ -2,6 +2,7 @@
 	import { onMounted, provide, ref, watch } from 'vue';
 	import PanleRight from './components/PanelRight.vue';
 	import { cityProvide } from './constants';
+	import PanelLeft from './components/PanelLeft.vue';
 
 	const API_ENDPOINT = 'http://api.weatherapi.com/v1';
 
@@ -44,7 +45,7 @@
 
 <template>
 	<main class="main">
-		<div class="left"></div>
+		<PanelLeft v-if="data" :data :active-index="activeIndex" />
 		<div class="right">
 			<PanleRight
 				:error
@@ -61,15 +62,6 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-	}
-
-	.left {
-		width: 500px;
-		height: 660px;
-		border-radius: 30px;
-		background-image: url('/public/bg.png');
-		background-repeat: no-repeat;
-		background-size: cover;
 	}
 
 	.right {

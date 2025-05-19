@@ -2,6 +2,7 @@
 	import IconSun from '../icons/IconSun.vue';
 	import IconCloud from '../icons/IconCloud.vue';
 	import IconRain from '../icons/IconRain.vue';
+	import WeatherIcon from './WeatherIcon.vue';
 
 	const { iconCode, date, temperature, isActive } = defineProps({
 		iconCode: Number,
@@ -13,9 +14,7 @@
 
 <template>
 	<button class="card" :class="{ active: isActive }">
-		<IconSun v-if="iconCode == 1000" />
-		<IconRain v-else-if="iconCode == 1009 || iconCode == 1063" />
-		<IconCloud v-else />
+		<WeatherIcon :icon-code="iconCode" />
 		<p class="day">
 			{{ date.toLocaleDateString('ru-Ru', { weekday: 'short' }) }}
 		</p>

@@ -20,18 +20,19 @@
 	});
 
 	const statData = computed(() => {
+		console.log(data.forecast.forecastday[activeIndex].day);
 		return [
 			{
 				labelName: 'Влажность',
-				labelVal: `${data.current.humidity}%`,
+				labelVal: `${data.forecast.forecastday[activeIndex].day.avghumidity}%`,
 			},
 			{
-				labelName: 'Облочность',
-				labelVal: `${data.current.cloud}%`,
+				labelName: 'Вероятность дождя',
+				labelVal: `${data.forecast.forecastday[activeIndex].day.daily_chance_of_rain}%`,
 			},
 			{
 				labelName: 'Ветер',
-				labelVal: `${data.current.wind_kph} км/с`,
+				labelVal: `${data.forecast.forecastday[activeIndex].day.maxwind_kph} км/с`,
 			},
 		];
 	});
@@ -48,7 +49,7 @@
 			:key="item.date"
 			:icon-code="item.day.condition.code"
 			:temperature="item.day.avgtemp_c"
-			:date="new Date()"
+			:date="new Date(item.date)"
 			:is-active="activeIndex === index"
 			@click="() => emit('select-index', index)"
 		/>
